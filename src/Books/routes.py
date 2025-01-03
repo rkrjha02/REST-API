@@ -4,6 +4,9 @@ from typing import List
 from src.Books.Book_data import Books
 from src.Books.schemas import bookStructure, bookUpdateModel
 
+#APIRouter is used to bundle the similar routes together i.e. if there are two users of website
+#i.e. users and admin then it will be used to maintain the user routes under one object and admin
+#in another
 book_router=APIRouter()
 
 # RETURN THE LIST OF ALL BOOKS AND RESPONSE MODEL IS USED TO DECIDE THE FORMAT VALIDATION BEFORE SENDING TO CLIENT
