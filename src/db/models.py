@@ -1,8 +1,8 @@
-from markdown_it.rules_block import table
 from sqlmodel import SQLModel, Field, Column
 from datetime import datetime
 import uuid
 import sqlalchemy.dialects.postgresql as pg
+from sqlalchemy.sql import func
 
 # SQLAlchemy dialects allow it to communicate with different database engines, such as PostgreSQL,
 # MySQL, SQLite and others.
@@ -22,7 +22,7 @@ class Book(SQLModel, table=True):
             pg.UUID,
             nullable=False,
             primary_key=True,
-            default=uuid.uuid4()
+            default=uuid.uuid4
         )
     )
     author: str
@@ -32,8 +32,8 @@ class Book(SQLModel, table=True):
     page_count: int
     genre: str
     language: str
-    createdDate: datetime = Field(Column(pg.TIMESTAMP,default=datetime.now))
-    updatedDate: datetime = Field(Column(pg.TIMESTAMP,default=datetime.now))
+    createdDate: datetime = Field(sa_column=Column(pg.TIMESTAMP,server_default=func.now()))
+    updatedDate: datetime = Field(sa_column=Column(pg.TIMESTAMP,onupdate=func.now(),server_default=func.now()))
 
     # repr is not a keyword but a special method used to provide the string representation of object
     def __repr__(self):
