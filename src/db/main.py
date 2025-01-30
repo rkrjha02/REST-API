@@ -1,4 +1,4 @@
-from sqlmodel import create_engine,text
+from sqlmodel import create_engine,text, SQLModel
 from sqlalchemy.ext.asyncio import AsyncEngine
 from src.config import Config
 
@@ -17,6 +17,9 @@ engine=AsyncEngine(create_engine(
 
 async def dataBaseinit():
     async with engine.begin() as conn:
-        statement=text("SELECT 'hello'")
-        result=await conn.execute(statement)
-        print(result)
+        # noinspection PyUnresolvedReferences
+        from src.db.models import Book
+
+        print("MetaData Start...")
+        await conn.run_sync(SQLModel.metadata.create_all)
+        print("MetaData End...")

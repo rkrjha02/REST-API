@@ -1,10 +1,12 @@
 from fastapi import FastAPI
 from src.Books.routes import book_router
 from contextlib import asynccontextmanager
+from src.db.main import dataBaseinit
 
 @asynccontextmanager
 async def life_span(app:FastAPI):
     print("Server is Starting...")
+    await dataBaseinit()
     yield
     print("Server has stopped working...")
 
