@@ -3,6 +3,11 @@ from .schemas import createBookModel,bookUpdateModel
 from src.db.models import Book
 from sqlmodel import select, desc
 
+# Use of Session
+# Session is like a temporary workspace for database changes.
+# You add, modify, or delete data in the session before committing it to the actual database.
+# If something goes wrong, you can rollback the changes to avoid corruption.
+
 class bookService:
     async def getAllBooks(self, session:AsyncSession):
         statement=select(Book).order_by(desc(Book.createdDate))
@@ -18,6 +23,9 @@ class bookService:
 
         return book if book is not None else None
 
+    #SQLAlchemy/SQLModel's execute() method does not automatically return the query results in the
+    # format you expect. session.execute() returns a Result object, not the actual records directly
+
     async def createBook(self, book_data:createBookModel, session:AsyncSession):
         bookDictData=book_data.model_dump()
         newBookData=Book(
@@ -28,6 +36,9 @@ class bookService:
         await session.commit()
 
         return newBookData
+
+    # **bookDictData syntax is Python's dictionary unpacking operator (**kwargs). It is used to pass
+    # the dictionary’s key-value pairs as keyword arguments to the Book model.
 
     async def updateBook(self, book_id:str, book_data:bookUpdateModel, session:AsyncSession):
         bookToUpdate=self.getBook(book_id,session)
@@ -43,4 +54,11 @@ class bookService:
             return None
 
     async def deleteBook(self, book_id:str, session:AsyncSession):
-        pass
+        bookToDelete = self.getBook(book_id, session)
+
+        if bookToDelete is not None:
+            await session.delete(bookToDelete)
+            await session.commit()
+            return {}
+        else:
+            return None
