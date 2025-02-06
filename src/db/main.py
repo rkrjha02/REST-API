@@ -28,11 +28,7 @@ async def dataBaseinit():
 
 async def getSession()-> AsyncSession:
 
-    Session=sessionmaker(
-        bind=engine,
-        class_=AsyncSession,
-        expire_on_commit=False
-    )
+    Session=sessionmaker( bind=engine,class_=AsyncSession,expire_on_commit=False )
 
     async with Session() as session:
         yield session

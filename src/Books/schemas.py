@@ -14,7 +14,7 @@ class bookStructure(BaseModel):
     createdAt:datetime
     updatedAt:datetime
 
-class createBookModel:
+class createBookModel(BaseModel):
     author: str
     title: str
     publisher: str

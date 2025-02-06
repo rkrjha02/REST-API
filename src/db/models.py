@@ -35,6 +35,8 @@ class Book(SQLModel, table=True):
     createdDate: datetime = Field(sa_column=Column(pg.TIMESTAMP,server_default=func.now()))
     updatedDate: datetime = Field(sa_column=Column(pg.TIMESTAMP,onupdate=func.now(),server_default=func.now()))
 
-    # repr is not a keyword but a special method used to provide the string representation of object
+    # repr is not a keyword but a special method (dunder) used to provide the string representation of
+    # object
+
     def __repr__(self):
         return f"<Book {self.title}>"
