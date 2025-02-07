@@ -2,7 +2,7 @@ from fastapi import status, APIRouter, Depends
 from fastapi.exceptions import HTTPException
 from typing import List
 from sqlmodel.ext.asyncio.session import AsyncSession
-from src.Books.schemas import bookStructure, bookUpdateModel
+from src.Books.schemas import bookStructure, bookUpdateModel, createBookModel
 from .service import bookService
 from ..db.main import getSession
 
@@ -21,7 +21,7 @@ async def getAllBooks(session:AsyncSession=Depends(getSession)):
 #status.HTTP_201_CREATED is used to return the status that resource has been successfully created
 #model_dump() is used to convert the model instance into dictionary for the ease of use
 @book_router.post('/', status_code=status.HTTP_201_CREATED, response_model=bookStructure)
-async def createBook(newBookData:bookStructure, session:AsyncSession=Depends(getSession))->dict:
+async def createBook(newBookData:createBookModel, session:AsyncSession=Depends(getSession))->dict:
     newBook=await book_service.createBook(newBookData,session)
     return newBook
 

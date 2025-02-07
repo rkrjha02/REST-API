@@ -32,8 +32,8 @@ class Book(SQLModel, table=True):
     page_count: int
     genre: str
     language: str
-    createdDate: datetime = Field(sa_column=Column(pg.TIMESTAMP,server_default=func.now()))
-    updatedDate: datetime = Field(sa_column=Column(pg.TIMESTAMP,onupdate=func.now(),server_default=func.now()))
+    createdDate: datetime = Field(sa_column=Column(pg.TIMESTAMP,default=datetime.now))
+    updatedDate: datetime = Field(sa_column=Column(pg.TIMESTAMP,onupdate=datetime.now,default=datetime.now))
 
     # repr is not a keyword but a special method (dunder) used to provide the string representation of
     # object
