@@ -26,7 +26,7 @@ async def createBook(newBookData:createBookModel, session:AsyncSession=Depends(g
     return newBook
 
 # Get A single Book with a particular Book_Id
-@book_router.get('/{book_id}')
+@book_router.get('/{book_id}',response_model=bookStructure)
 async def getBookByBookId(book_id:str, session:AsyncSession=Depends(getSession)):
 
     book=await book_service.getBook(book_id,session)
@@ -36,7 +36,7 @@ async def getBookByBookId(book_id:str, session:AsyncSession=Depends(getSession))
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Book Not Found")
 
 #Update a Book
-@book_router.patch('/{book_id}')
+@book_router.patch('/{book_id}', response_model=bookStructure)
 async def updateBookByBookId(book_id:str, bookUpdate:bookUpdateModel,session:AsyncSession=Depends(getSession)):
     updated_book=await book_service.updateBook(book_id,bookUpdate,session)
 
@@ -51,7 +51,7 @@ async def deleteBookByBookId(book_id:str, session:AsyncSession=Depends(getSessio
 
     delete_book=await book_service.deleteBook(book_id, session)
 
-    if delete_book:
-        return None
-    else:
+    if delete_book is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Not found in Book List")
+    else:
+        return {}

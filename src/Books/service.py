@@ -48,11 +48,11 @@ class bookService:
     # the dictionary’s key-value pairs as keyword arguments to the Book model.
 
     async def updateBook(self, book_id:str, book_data:bookUpdateModel, session:AsyncSession):
-        bookToUpdate=self.getBook(book_id,session)
-        updateBookDataDict=book_data.model_dump()
+        bookToUpdate=await self.getBook(book_id,session)
 
         if bookToUpdate is not None:
-            for key,value in updateBookDataDict:
+            updateBookDataDict = book_data.model_dump()
+            for key,value in updateBookDataDict.items():
                 setattr(bookToUpdate,key,value)
 
             await session.commit()
@@ -61,7 +61,7 @@ class bookService:
             return None
 
     async def deleteBook(self, book_id:str, session:AsyncSession):
-        bookToDelete = self.getBook(book_id, session)
+        bookToDelete = await self.getBook(book_id, session)
 
         if bookToDelete is not None:
             await session.delete(bookToDelete)
