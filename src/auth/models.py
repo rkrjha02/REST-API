@@ -22,6 +22,7 @@ class User(SQLModel, table=True):
     )
     username:str
     email:str
+    password:str=Field(exclude=True)
     first_name:str
     last_name:str
     is_verified:bool=Field(default=False)

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from src.Books.routes import book_router
 from contextlib import asynccontextmanager
 from src.db.main import dataBaseinit
+from src.auth.routes import auth_router
 
 #The @asynccontextmanager decorator is used to define an asynchronous context manager. This helps
 # manage resources that need setup and cleanup, such as databases or external connections.
@@ -34,3 +35,4 @@ app=FastAPI(
 # tags=['Books']: Helps organize the API documentation in Swagger UI (/docs).
 
 app.include_router(book_router, prefix=f"/api/{version}/books", tags=['Books'])
+app.include_router(auth_router, prefix=f"/api/{version}/auth", tags=['Auth'])
