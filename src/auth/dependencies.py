@@ -21,7 +21,7 @@ class tokenBearer(HTTPBearer):
         print(creds.scheme)
         print(creds.credentials)
 
-        return creds
+        return token_data
 
     def isTokenValid(self, token:str):
         token_data=decode_token(token)
